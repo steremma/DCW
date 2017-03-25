@@ -6,6 +6,7 @@ import os
 
 
 def tag_description():
+    """ Find out how many tags exist, in what categories etc. """
     input = "data/tag_description.csv"
     with open(input, 'r') as f:
         reader = csv.reader(f)
@@ -17,7 +18,8 @@ def tag_description():
                 print(row[2])
         print("Count is: " + str(count))
 
-def wois_data():
+def wois_data(debug = False):
+    """ Explore sensor data and print some statistics """
     def scan_file(input_file, existing_tags):
         with open(input_file, 'r') as f:
             reader = csv.reader(f)
@@ -29,7 +31,8 @@ def wois_data():
     count = 0
     for file in os.listdir(directory):
         count += 1
-        print("Scanning file " + str(count))
+        if(debug):
+            print("Scanning file " + str(count))
         scan_file(directory + "/" + file, tags)
 
     # Print some info
@@ -39,7 +42,7 @@ def wois_data():
 
 
 def rank_engines():
-
+    """ Rank every available engine based on its average SFOC value over every file"""
     class Engine:
         def __init__(self, identifier, partial, count):
             self.identifier = identifier
@@ -87,4 +90,7 @@ def rank_engines():
         measure_engine(eng)
 
 if __name__ == "__main__":
+    # Call any function here like so:
+    tag_description()
     rank_engines()
+    #wois_data(debug = True)
